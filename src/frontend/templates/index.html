@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD App with Flask and HTMX</title>
+    <script src="https://unpkg.com/htmx.org"></script>
+</head>
+<body>
+    <div id="divGeral">
+    <h1>Items</h1>
+    <form action="/add_registry" method="post" hx-post="/add_registry" hx-swap="none">
+        <input type="text" name="registry" placeholder="Add new item">
+        <button type="submit">Add</button>
+    </form>
+    <ul>
+        {% for item in registry %}
+        <li>
+            {{ item.item }}
+            <form action="/delete_registry/{{ item.doc_id }}" method="post" hx-post="/delete_registry/{{ item.doc_id }}" hx-confirm="Are you sure?" hx-target="closest li" hx-swap="outerHTML">
+                <button type="submit">Delete</button>
+            </form>
+            <form hx-get="/update_registry/{{ item.doc_id }}" hx-target="#divGeral" hx-swap="innerHTML">
+                <button type="submit">Update</button>
+            </form>
+        </li>
+        {% endfor %}
+    </ul>
+
+</div>
+    <div hidden id="hidden">aasd</div>
+</body>
+</html>
